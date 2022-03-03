@@ -81,3 +81,5 @@ def test_compute_normalized_patch_descriptors():
 		expected_fv2.reshape(1,256)
 	])
 	assert np.allclose(fvs, expected_fvs)
+
+test_compute_normalized_patch_descriptors()

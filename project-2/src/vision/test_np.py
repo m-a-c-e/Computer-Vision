@@ -1,12 +1,5 @@
 import numpy as np
-import torch
 
-a = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.float32)
-c = np.array([[1, 2, 3], [4, 75, 6]], dtype=np.float32)
-d = torch.from_numpy(a)
-d = d.detach().cpu().numpy()
-print(d)
-
-b = np.where(a == c, 0, a)
-print(b)
+bins = np.array([-1, -3/4, -1/2, -1/4, 0, 1/4, 1/2, 3/4, 1]) * np.pi
+print(np.round(bins, 5))
 

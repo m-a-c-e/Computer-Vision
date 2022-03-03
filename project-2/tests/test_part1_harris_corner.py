@@ -254,6 +254,8 @@ def test_nms_maxpool_pytorch():
     assert np.allclose(y, expected_y)
     assert c.size == 2
 
+test_nms_maxpool_pytorch()
+
 def test_remove_border_vals():
     #test proper removal of border corners
     M = 16
@@ -338,9 +340,3 @@ def test_get_harris_interest_points():
     assert np.allclose(expected_x, x)
     assert np.allclose(expected_y, y)
     assert np.allclose(expected_confidences, confidences)
-
-
-
-
-test_get_harris_interest_points()
-

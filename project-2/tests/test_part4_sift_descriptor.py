@@ -261,7 +261,6 @@ def test_get_SIFT_descriptors():
             ],
         ]
     ).reshape(2, 128)
-
     assert np.allclose(SIFT_descriptors, expected_SIFT_descriptors, atol=1e-1)
 
 
@@ -333,51 +332,52 @@ def test_feature_matching_accuracy():
     print(f"Your Feature matching pipeline achieved {100 * acc:.2f}% accuracy to run on Notre Dame")
 
     MIN_ALLOWED_ACC = 0.80  # 80 percent
+    
     assert acc > MIN_ALLOWED_ACC
 
 
-def test_extra_credit_vectorized_sift():
-    """
-    Test how long feature matching takes to execute on the Notre Dame pair.
-    This unit test must run in under 90 seconds.
-    """
+# def test_extra_credit_vectorized_sift():
+#     """
+#     Test how long feature matching takes to execute on the Notre Dame pair.
+#     This unit test must run in under 90 seconds.
+#     """
 
-    image1 = load_image(f"{ROOT}/data/1a_notredame.jpg")
-    image2 = load_image(f"{ROOT}/data/1b_notredame.jpg")
-    eval_file = f"{ROOT}/ground_truth/notredame.pkl"
-    scale_factor = 0.5
-    image1 = PIL_resize(image1, (int(image1.shape[1] * scale_factor), int(image1.shape[0] * scale_factor)))
-    image2 = PIL_resize(image2, (int(image2.shape[1] * scale_factor), int(image2.shape[0] * scale_factor)))
-    image1_bw = rgb2gray(image1)
-    image2_bw = rgb2gray(image2)
+#     image1 = load_image(f"{ROOT}/data/1a_notredame.jpg")
+#     image2 = load_image(f"{ROOT}/data/1b_notredame.jpg")
+#     eval_file = f"{ROOT}/ground_truth/notredame.pkl"
+#     scale_factor = 0.5
+#     image1 = PIL_resize(image1, (int(image1.shape[1] * scale_factor), int(image1.shape[0] * scale_factor)))
+#     image2 = PIL_resize(image2, (int(image2.shape[1] * scale_factor), int(image2.shape[0] * scale_factor)))
+#     image1_bw = rgb2gray(image1)
+#     image2_bw = rgb2gray(image2)
 
-    X1, Y1, _ = get_harris_interest_points(copy.deepcopy(image1_bw))
-    X2, Y2, _ = get_harris_interest_points(copy.deepcopy(image2_bw))
+#     X1, Y1, _ = get_harris_interest_points(copy.deepcopy(image1_bw))
+#     X2, Y2, _ = get_harris_interest_points(copy.deepcopy(image2_bw))
 
-    start = time.time()
-    image1_features = get_sift_features_vectorized(image1_bw, X1, Y1)
-    image2_features = get_sift_features_vectorized(image2_bw, X2, Y2)
-    end = time.time()
-    duration = end - start
-    print(f"Your vectorized SIFT implementation takes {duration:.2f} seconds to run on Notre Dame")
+#     start = time.time()
+#     image1_features = get_sift_features_vectorized(image1_bw, X1, Y1)
+#     image2_features = get_sift_features_vectorized(image2_bw, X2, Y2)
+#     end = time.time()
+#     duration = end - start
+#     print(f"Your vectorized SIFT implementation takes {duration:.2f} seconds to run on Notre Dame")
 
-    MAX_ALLOWED_TIME = 5  # sec
-    assert duration < MAX_ALLOWED_TIME, "Runtime too long"
+#     MAX_ALLOWED_TIME = 5  # sec
+#     assert duration < MAX_ALLOWED_TIME, "Runtime too long"
 
-    matches, confidences = match_features_ratio_test(image1_features, image2_features)
-    print("{:d} matches from {:d} corners".format(len(matches), len(X1)))
+#     matches, confidences = match_features_ratio_test(image1_features, image2_features)
+#     print("{:d} matches from {:d} corners".format(len(matches), len(X1)))
 
-    acc, _ = evaluate_correspondence(
-        image1,
-        image2,
-        eval_file,
-        scale_factor,
-        X1[matches[:, 0]],
-        Y1[matches[:, 0]],
-        X2[matches[:, 1]],
-        Y2[matches[:, 1]],
-    )
-    print(f"Your vectorized feature matching pipeline achieved {100 * acc:.2f}% accuracy to run on Notre Dame")
+#     acc, _ = evaluate_correspondence(
+#         image1,
+#         image2,
+#         eval_file,
+#         scale_factor,
+#         X1[matches[:, 0]],
+#         Y1[matches[:, 0]],
+#         X2[matches[:, 1]],
+#         Y2[matches[:, 1]],
+#     )
+#     print(f"Your vectorized feature matching pipeline achieved {100 * acc:.2f}% accuracy to run on Notre Dame")
 
-    MIN_ALLOWED_ACC = 0.80  # 80 percent
-    assert acc > MIN_ALLOWED_ACC, "Accuracy too low"
+#     MIN_ALLOWED_ACC = 0.80  # 80 percent
+#     assert acc > MIN_ALLOWED_ACC, "Accuracy too low"

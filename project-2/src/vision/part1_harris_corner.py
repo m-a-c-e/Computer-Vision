@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 
-from re import I
 import numpy as np
 import torch
 
-from torch import median, nn, tensor
+from torch import  nn
 from typing import Tuple
 
 
@@ -40,7 +39,7 @@ def compute_image_gradients(image_bw: np.ndarray) -> Tuple[np.ndarray, np.ndarra
 	###########################################################################
 	# TODO: YOUR CODE HERE                                                    #
 	###########################################################################
-	
+
 	m = image_bw.shape[0]
 	n = image_bw.shape[1]
 	k = SOBEL_X_KERNEL.shape[0]
@@ -309,8 +308,8 @@ def nms_maxpool_pytorch(
 		max_score = np.max(k_scores)
 		idx = np.where(k_scores == max_score)[0][0]
 		confidences.append(max_score)
-		x.append(R_x[idx])
-		y.append(R_y[idx])
+		y.append(R_x[idx])
+		x.append(R_y[idx])
 		k_scores[idx] = float('-inf')
 
 	x = np.array(x, dtype=np.float32)

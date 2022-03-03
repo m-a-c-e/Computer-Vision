@@ -35,10 +35,14 @@ def compute_feature_distances(
     ###########################################################################
     # TODO: YOUR CODE HERE                                                    #
     ###########################################################################
-
-    raise NotImplementedError('`compute_feature_distances` function in ' +
-        '`part3_feature_matching.py` needs to be implemented')
-
+    dists = []
+    for row in features1:
+        diff = features2 - row
+        diff = np.square(diff)
+        diff = np.sum(diff, axis=1)
+        diff = np.sqrt(diff)
+        dists.append(diff)
+    dists = np.array(dists)
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
@@ -82,10 +86,26 @@ def match_features_ratio_test(
     ###########################################################################
     # TODO: YOUR CODE HERE                                                    #
     ###########################################################################
+    features1 = np.array(features1)
+    features2 = np.array(features2)
+    n1 = features1.shape[0]
+    dists = compute_feature_distances(features1, features2)
 
-    raise NotImplementedError('`match_features_ratio_test` function in ' +
-        '`part3_feature_matching.py` needs to be implemented')
-
+    matches = []
+    confidences = []
+    for i in range(0, n1):
+        row = np.sort(dists[i])
+        v1 = row[0]
+        v2 = row[1]
+        ratio = 0
+        if v1 != 0:
+            ratio = v1 / v2
+        if ratio < 0.8:
+            idx = np.argmin(dists[i])
+            matches.append([i, idx])
+            confidences.append(v1)
+    matches = np.array(matches)
+    confidences = np.array(confidences)
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
